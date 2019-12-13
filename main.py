@@ -11,21 +11,14 @@ def hello():
     return 'Hello'
 
 
-@app.route('/hello-world')
-def hello_world():
-    return 'Hello world'
-
-
-@app.route('/gen')
-def gen():
-    return ''.join(
-        random.choice(string.ascii_uppercase) for i in range(10)
-    )
+@app.route('/requirements')
+def requirements():
+    with open('requirements.txt') as file:
+        text = file.read()
+    return "<br>".join(text.split("\n"))
 
 
 if __name__ == '__main__':
     app.run()
 
-# Faker
-# request
-# pandas
+
