@@ -6,7 +6,7 @@ def names_emails(count):
     user_list = ""
     for i in range(count):
         email = fake.email()
-        user_list += '<br>' + fake.name() + ': <a href="mailto:' + email + '">' + email + '</a>'
+        user_list += fake.name() + ': <a href="mailto:' + email + '">' + email + '</a><br>'
     return user_list
 
 
