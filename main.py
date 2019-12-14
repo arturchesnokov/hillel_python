@@ -11,5 +11,12 @@ def hello():
     return 'Hello'
 
 
+@app.route('/requirements')
+def requirements():
+    with open('requirements.txt') as file:
+        text = file.read()
+    return "<br>".join(text.split("\n"))
+
+
 if __name__ == '__main__':
     app.run()
