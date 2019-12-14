@@ -1,7 +1,7 @@
 from faker import Faker
 
 
-def names_emails(count):
+def names_emails(count) -> str:
     fake = Faker()
     user_list = ""
     for i in range(count):

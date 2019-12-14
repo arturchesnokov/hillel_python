@@ -1,12 +1,13 @@
 from fake_name_email import names_emails
 from astros import active_astronauts_names, active_astronauts_count
-from read_csv import avg_height_weight
+from read_csv import avg_height_weight, avg_by_pandas
 from requirements_read import requirements_info
 from flask import Flask
 
 app = Flask('app')
 
 
+# "Меню" для навигации
 def navi():
     page = '<a href="/">Home Page</a>&nbsp&nbsp' \
            '<a href="/requirements">Requirements</a>&nbsp&nbsp' \
@@ -52,6 +53,14 @@ def astronauts():
     page = navi()
     page += f'Astronauts count: {active_astronauts_count()}<br><br>'
     page += active_astronauts_names()
+    return page
+
+
+# Нужно будет разобраться с пандой
+@app.route('/avg_by_pandas')
+def avg_pandas():
+    page = navi()
+    page += avg_by_pandas()
     return page
 
 

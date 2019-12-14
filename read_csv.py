@@ -3,12 +3,13 @@ import pandas
 FILE = 'hw.csv'
 
 
-def avg_by_pandas(data_file=FILE):
+# TODO: доделать вывод только нужных стобцов
+def avg_by_pandas(data_file=FILE) -> str:
     df = pandas.read_csv(data_file, sep=',')
-    return df.mean(axis=0)
+    return str(df.mean(axis=0))
 
 
-def avg_height_weight(data_file=FILE):
+def avg_height_weight(data_file=FILE) -> dict:
     with open(data_file) as file:
         text = file.read()
     strings = text.split('\n')
@@ -26,3 +27,4 @@ def avg_height_weight(data_file=FILE):
 
 if __name__ == '__main__':
     print(avg_height_weight())
+    print(avg_by_pandas())

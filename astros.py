@@ -4,7 +4,7 @@ import json
 REQUEST_URL = 'http://api.open-notify.org/astros.json'
 
 
-def active_astronauts_count():
+def active_astronauts_count() -> int:
     r = requests.get(REQUEST_URL)
     people = json.loads(r.text)
     print(len(json.loads(r.text)["people"]))
@@ -12,7 +12,7 @@ def active_astronauts_count():
     return len(people["people"])
 
 
-def active_astronauts_names():
+def active_astronauts_names() -> str:
     r = requests.get(REQUEST_URL)
     people = json.loads(r.text)
     text = ''
@@ -22,5 +22,5 @@ def active_astronauts_names():
 
 
 if __name__ == '__main__':
-    print(active_astronauts_names(),'\n')
+    print(active_astronauts_names(), '\n')
     active_astronauts_count()
