@@ -1,7 +1,6 @@
 import sqlite3
 
 
-
 def exec_query(query):
     conn = sqlite3.connect('./chinook.db')
     cursor = conn.cursor()

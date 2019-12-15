@@ -1,7 +1,4 @@
-from fake_name_email import names_emails
-from astros import active_astronauts_names, active_astronauts_count
-from read_csv import avg_height_weight, avg_by_pandas
-from requirements_read import requirements_info
+from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info
 from sqlite_pr import exec_query
 from flask import Flask
 
@@ -44,7 +41,7 @@ def users():
 @app.route('/average')
 def average():
     page = navi()
-    av = avg_height_weight()
+    av = avg_by_pandas()
     page += f'Average height: {av["avg_height"]}<br>' \
             f'Average weight: {av["avg_weight"]}'
     return page
@@ -58,18 +55,10 @@ def astronauts():
     return page
 
 
-# Нужно будет разобраться с пандой
-@app.route('/avg_by_pandas')
-def avg_pandas():
-    page = navi()
-    page += avg_by_pandas()
-    return page
-
-
 @app.route('/all-customers')
 def all_customers():
     page = navi()
-    a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
+    # a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
     from flask import request
     q = f'SELECT * FROM customers WHERE Country = "{request.args["Country"]}";'
     page += str(exec_query(q))
