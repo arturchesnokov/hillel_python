@@ -2,6 +2,7 @@ from fake_name_email import names_emails
 from astros import active_astronauts_names, active_astronauts_count
 from read_csv import avg_height_weight, avg_by_pandas
 from requirements_read import requirements_info
+from sqlite_pr import exec_query
 from flask import Flask
 
 app = Flask('app')
@@ -14,6 +15,7 @@ def navi():
            '<a href="/users">Users</a>&nbsp&nbsp' \
            '<a href="/average">Average</a>&nbsp&nbsp' \
            '<a href="/astronauts">Astronauts</a>&nbsp&nbsp' \
+           '<a href="/all-customers">All Customers</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -64,5 +66,15 @@ def avg_pandas():
     return page
 
 
+@app.route('/all-customers')
+def all_customers():
+    page = navi()
+    a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
+    from flask import request
+    q = f'SELECT * FROM customers WHERE Country = "{request.args["Country"]}";'
+    page += str(exec_query(q))
+    return page
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000, debug=True)

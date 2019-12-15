@@ -6,6 +6,9 @@ FILE = 'hw.csv'
 # TODO: доделать вывод только нужных стобцов
 def avg_by_pandas(data_file=FILE) -> str:
     df = pandas.read_csv(data_file, sep=',')
+    print(df.columns)
+    df.columns = ['index', 'height', 'weight']
+    print(df['height'].mean())
     return str(df.mean(axis=0))
 
 
