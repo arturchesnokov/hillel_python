@@ -19,5 +19,5 @@ def parse_response(resp) -> str:
 
 
 if __name__ == '__main__':
-    q = 'SELECT * FROM customers;'
-    print(parse_response(exec_query(q)))
+    q = 'SELECT COUNT(DISTINCT FirstName) FROM customers;'
+    exec_query(q)

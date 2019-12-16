@@ -8,8 +8,8 @@ app = Flask('app')
 
 # "Меню" для навигации
 def navi():
-    page = '<a href="/">Home Page</a>&nbsp&nbsp'\
-           '<br>HW-1:&nbsp'\
+    page = '<a href="/">Home Page</a>&nbsp&nbsp' \
+           '<br>HW-1:&nbsp' \
            '<a href="/requirements">Requirements</a>&nbsp&nbsp' \
            '<a href="/users">Users</a>&nbsp&nbsp' \
            '<a href="/average">Average</a>&nbsp&nbsp' \
@@ -18,6 +18,7 @@ def navi():
            '<a href="/all-customers">All Customers</a>&nbsp&nbsp' \
            '<a href="/customers-from-state-and-city?state=QC&city=Montréal">Customers by state and city</a>&nbsp&nbsp' \
            '<a href="/gen?len=20">String generator</a>&nbsp&nbsp' \
+           '<a href="/customers-with-unique-names">Unique names</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -84,6 +85,14 @@ def customers_state_city():
     q = f'SELECT * FROM customers WHERE ' \
         f'state = "{request.args["state"]}" ' \
         f'and city = "{request.args["city"]}";'
+    page += exec_query(q)
+    return page
+
+
+@app.route('/customers-with-unique-names')
+def unique_names():
+    page = navi()
+    q = 'SELECT COUNT(DISTINCT FirstName) FROM customers;'
     page += str(exec_query(q))
     return page
 
