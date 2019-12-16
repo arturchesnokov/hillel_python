@@ -2,10 +2,20 @@ from faker import Faker
 import pandas
 import requests
 import json
+import os
+import random
+import string
+
+
+def random_string(qty) -> str:
+    return ''.join(
+        random.choice(string.ascii_uppercase) for i in range(qty)
+    )
 
 
 def requirements_info() -> str:
-    with open('requirements.txt') as file:
+    req_path = os.path.join(os.getcwd(), 'requirements.txt')
+    with open(req_path) as file:
         text = file.read()
     return "<br>".join(text.split("\n"))
 

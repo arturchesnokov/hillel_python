@@ -1,4 +1,5 @@
-from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info
+from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info, \
+    random_string
 from sqlite_pr import exec_query
 from flask import Flask
 
@@ -8,6 +9,7 @@ app = Flask('app')
 # "Меню" для навигации
 def navi():
     page = '<a href="/">Home Page</a>&nbsp&nbsp' \
+           '<a href="/gen">random string</a>&nbsp&nbsp' \
            '<a href="/requirements">Requirements</a>&nbsp&nbsp' \
            '<a href="/users">Users</a>&nbsp&nbsp' \
            '<a href="/average">Average</a>&nbsp&nbsp' \
@@ -21,6 +23,13 @@ def navi():
 def hello():
     page = navi()
     page += 'Hello!'
+    return page
+
+
+@app.route('/gen')
+def gen():
+    page = navi()
+    page += random_string(10)
     return page
 
 
