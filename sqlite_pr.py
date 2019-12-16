@@ -1,14 +1,23 @@
 import sqlite3
+import os
 
 
 def exec_query(query):
-    conn = sqlite3.connect('./chinook.db')
+    db_path = os.path.join(os.getcwd(), 'chinook.db')
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute(query)
     record = cursor.fetchall()
-    return record
+    return parse_response(record)
+
+
+def parse_response(resp) -> str:
+    text = ""
+    for row in resp:
+        text += str(row)[1:-1] + "<br>"
+    return text
 
 
 if __name__ == '__main__':
     q = 'SELECT * FROM customers;'
-    print(exec_query(q))
+    print(parse_response(exec_query(q)))

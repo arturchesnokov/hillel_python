@@ -15,6 +15,7 @@ def navi():
            '<a href="/average">Average</a>&nbsp&nbsp' \
            '<a href="/astronauts">Astronauts</a>&nbsp&nbsp' \
            '<a href="/all-customers">All Customers</a>&nbsp&nbsp' \
+           '<a href="/customers-from-state-and-city?state=QC&city=Montréal">Customers by state and city</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -67,9 +68,20 @@ def astronauts():
 @app.route('/all-customers')
 def all_customers():
     page = navi()
+    from flask import request
+    q = f'SELECT * FROM customers;'
+    page += str(exec_query(q))
+    return page
+
+
+@app.route('/customers-from-state-and-city')
+def customers_state_city():
+    page = navi()
     # a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
     from flask import request
-    q = f'SELECT * FROM customers WHERE Country = "{request.args["Country"]}";'
+    q = f'SELECT * FROM customers WHERE ' \
+        f'state = "{request.args["state"]}" ' \
+        f'and city = "{request.args["city"]}";'
     page += str(exec_query(q))
     return page
 
