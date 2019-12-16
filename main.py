@@ -19,6 +19,7 @@ def navi():
            '<a href="/customers-from-state-and-city?state=QC&city=Montréal">Customers by state and city</a>&nbsp&nbsp' \
            '<a href="/gen?len=20">String generator</a>&nbsp&nbsp' \
            '<a href="/customers-with-unique-names">Unique names</a>&nbsp&nbsp' \
+           '<a href="/invoices_sum">Invoices SUM</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -93,6 +94,14 @@ def customers_state_city():
 def unique_names():
     page = navi()
     q = 'SELECT COUNT(DISTINCT FirstName) FROM customers;'
+    page += str(exec_query(q))
+    return page
+
+
+@app.route('/invoices_sum')
+def invoices():
+    page = navi()
+    q = 'SELECT SUM(UnitPrice * Quantity) FROM invoice_items;'
     page += str(exec_query(q))
     return page
 
