@@ -1,7 +1,7 @@
 from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info, \
     random_string
 from sqlite_pr import exec_query
-from flask import Flask
+from flask import Flask, request
 
 app = Flask('app')
 
@@ -27,13 +27,7 @@ def hello():
     return page
 
 
-@app.route('/gen')
-def gen():
-    page = navi()
-    page += random_string(10)
-    return page
-
-
+# HW-1
 @app.route('/requirements')
 def requirements():
     page = navi()
@@ -68,17 +62,33 @@ def astronauts():
 @app.route('/all-customers')
 def all_customers():
     page = navi()
-    from flask import request
     q = f'SELECT * FROM customers;'
     page += str(exec_query(q))
     return page
+
+
+# HW-2
+@app.route('/gen')
+def gen():
+    page = navi()
+    text = random_string(10)
+    pass_len = request.args["len"]
+    if pass_len:
+        try:
+            pass_len = int(pass_len)
+            if 6 <= pass_len <= 1000:
+                text = random_string(pass_len)
+            else:
+                text = "Length should be in rang from 6 to 1000"
+        except ValueError:
+            text = "Length value should be integer"
+    return page + text
 
 
 @app.route('/customers-from-state-and-city')
 def customers_state_city():
     page = navi()
     # a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
-    from flask import request
     q = f'SELECT * FROM customers WHERE ' \
         f'state = "{request.args["state"]}" ' \
         f'and city = "{request.args["city"]}";'
