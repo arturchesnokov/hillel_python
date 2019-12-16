@@ -1,5 +1,5 @@
 from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info, \
-    random_string
+    random_string, get_pass
 from sqlite_pr import exec_query
 from flask import Flask, request
 
@@ -8,14 +8,16 @@ app = Flask('app')
 
 # "Меню" для навигации
 def navi():
-    page = '<a href="/">Home Page</a>&nbsp&nbsp' \
-           '<a href="/gen">random string</a>&nbsp&nbsp' \
+    page = '<a href="/">Home Page</a>&nbsp&nbsp'\
+           '<br>HW-1:&nbsp'\
            '<a href="/requirements">Requirements</a>&nbsp&nbsp' \
            '<a href="/users">Users</a>&nbsp&nbsp' \
            '<a href="/average">Average</a>&nbsp&nbsp' \
            '<a href="/astronauts">Astronauts</a>&nbsp&nbsp' \
+           '<br>HW-2:&nbsp' \
            '<a href="/all-customers">All Customers</a>&nbsp&nbsp' \
            '<a href="/customers-from-state-and-city?state=QC&city=Montréal">Customers by state and city</a>&nbsp&nbsp' \
+           '<a href="/gen?len=20">String generator</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -71,18 +73,8 @@ def all_customers():
 @app.route('/gen')
 def gen():
     page = navi()
-    text = random_string(10)
-    pass_len = request.args["len"]
-    if pass_len:
-        try:
-            pass_len = int(pass_len)
-            if 6 <= pass_len <= 1000:
-                text = random_string(pass_len)
-            else:
-                text = "Length should be in rang from 6 to 1000"
-        except ValueError:
-            text = "Length value should be integer"
-    return page + text
+    page += get_pass(request.args["len"])
+    return page
 
 
 @app.route('/customers-from-state-and-city')
