@@ -1,7 +1,7 @@
 from utils import active_astronauts_names, active_astronauts_count, names_emails, avg_by_pandas, requirements_info, \
-    random_string
+    random_string, get_pass
 from sqlite_pr import exec_query
-from flask import Flask
+from flask import Flask, request
 
 app = Flask('app')
 
@@ -9,12 +9,17 @@ app = Flask('app')
 # "Меню" для навигации
 def navi():
     page = '<a href="/">Home Page</a>&nbsp&nbsp' \
-           '<a href="/gen">random string</a>&nbsp&nbsp' \
+           '<br>HW-1:&nbsp' \
            '<a href="/requirements">Requirements</a>&nbsp&nbsp' \
            '<a href="/users">Users</a>&nbsp&nbsp' \
            '<a href="/average">Average</a>&nbsp&nbsp' \
            '<a href="/astronauts">Astronauts</a>&nbsp&nbsp' \
+           '<br>HW-2:&nbsp' \
            '<a href="/all-customers">All Customers</a>&nbsp&nbsp' \
+           '<a href="/customers-from-state-and-city?state=QC&city=Montréal">Customers by state and city</a>&nbsp&nbsp' \
+           '<a href="/gen?len=20">String generator</a>&nbsp&nbsp' \
+           '<a href="/customers-with-unique-names">Unique names</a>&nbsp&nbsp' \
+           '<a href="/invoices_sum">Invoices SUM</a>&nbsp&nbsp' \
            '<br><br>'
     return page
 
@@ -26,13 +31,7 @@ def hello():
     return page
 
 
-@app.route('/gen')
-def gen():
-    page = navi()
-    page += random_string(10)
-    return page
-
-
+# HW-1
 @app.route('/requirements')
 def requirements():
     page = navi()
@@ -67,9 +66,42 @@ def astronauts():
 @app.route('/all-customers')
 def all_customers():
     page = navi()
+    q = f'SELECT * FROM customers;'
+    page += str(exec_query(q))
+    return page
+
+
+# HW-2
+@app.route('/gen')
+def gen():
+    page = navi()
+    page += get_pass(request.args["len"])
+    return page
+
+
+@app.route('/customers-from-state-and-city')
+def customers_state_city():
+    page = navi()
     # a = 'http://127.0.0.1:5000/all-customers?name=Dima&last-name='
-    from flask import request
-    q = f'SELECT * FROM customers WHERE Country = "{request.args["Country"]}";'
+    q = f'SELECT * FROM customers WHERE ' \
+        f'state = "{request.args["state"]}" ' \
+        f'and city = "{request.args["city"]}";'
+    page += exec_query(q)
+    return page
+
+
+@app.route('/customers-with-unique-names')
+def unique_names():
+    page = navi()
+    q = 'SELECT COUNT(DISTINCT FirstName) FROM customers;'
+    page += str(exec_query(q))
+    return page
+
+
+@app.route('/invoices_sum')
+def invoices():
+    page = navi()
+    q = 'SELECT SUM(UnitPrice * Quantity) FROM invoice_items;'
     page += str(exec_query(q))
     return page
 

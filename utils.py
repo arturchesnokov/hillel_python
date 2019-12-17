@@ -7,10 +7,27 @@ import random
 import string
 
 
+# generator of pass string
 def random_string(qty) -> str:
     return ''.join(
         random.choice(string.ascii_uppercase) for i in range(qty)
     )
+
+
+# verify len-param and returns password or message
+def get_pass(length) -> str:
+    if length:
+        try:
+            pass_len = int(length)
+            if 6 <= pass_len <= 1000:
+                text = random_string(pass_len)
+            else:
+                text = "Length should be in range from 6 to 1000"
+        except ValueError:
+            text = "Length value should be integer"
+    else:
+        text = f"Default length(10) password:<br>{random_string(10)}"
+    return text
 
 
 def requirements_info() -> str:
